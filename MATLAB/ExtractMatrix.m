@@ -51,15 +51,16 @@ NumOfCars_LW = sum(LW_LabelsMatrix);
 DataMatrix = [NumOfCars' NumOfCars_Clifton' NumOfCars_LW' DataMatrix'];
 
 %% Plotting
-row = 16;
+row = 1;
 NoOfCars = 3;
 xmin = (row-1)*Seconds2Index +1 ;
 x = [xmin :xmin+Seconds2Index-1];
+
 figure;
 plot(x',DataMatrix(row,4:end))
 hold on
 scatter(find(C_Labels),zeros(1,length(find(C_Labels))));
-scatter(find(LW_Labels),zeros(1,length(find(LW_Labels))))
+scatter(find(LW_Labels),zeros(1,length(find(LW_Labels))));
 xlim([xmin xmin+Seconds2Index-1]);
 ylim([-0.03 0.03]); 
 grid on 
