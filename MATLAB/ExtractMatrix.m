@@ -1,12 +1,13 @@
 % First load up the 'Extracting Labels' workspace
 
 %% Matrix Dimension
-Bandwidth = 4;
+Bandwidth = 7.5;
 Seconds2Index = 64*Bandwidth;
 
 Labels = CarLabels';
 C_Labels = CliftonLabels';
 LW_Labels = LWLabels';
+
 %% Removing outlier values and combining data
 A1 = table2array(accelerometerdatasection1(:,2));
 A2 = table2array(accelerometerdatasection2(:,2));
@@ -38,7 +39,6 @@ Labels = Labels(1:NumOfRows*Seconds2Index);
 C_Labels = C_Labels(1:NumOfRows*Seconds2Index);
 LW_Labels = LW_Labels(1:NumOfRows*Seconds2Index);
 
-
 DataMatrix = reshape(DataVec',Seconds2Index,NumOfRows);
 LabelsMatrix = reshape(Labels',Seconds2Index,NumOfRows);
 C_LabelsMatrix = reshape(C_Labels',Seconds2Index,NumOfRows);
@@ -49,8 +49,9 @@ NumOfCars_Clifton = sum(C_LabelsMatrix);
 NumOfCars_LW = sum(LW_LabelsMatrix);
 
 DataMatrix = [NumOfCars' NumOfCars_Clifton' NumOfCars_LW' DataMatrix'];
+
 %% Plotting
-row = 33;
+row = 16;
 NoOfCars = 3;
 xmin = (row-1)*Seconds2Index +1 ;
 x = [xmin :xmin+Seconds2Index-1];
@@ -63,4 +64,4 @@ xlim([xmin xmin+Seconds2Index-1]);
 ylim([-0.03 0.03]); 
 grid on 
 
-writematrix(DataMatrix, 'LabelledMatrix.csv')
+writematrix(DataMatrix, 'LabelledMatrixTimeDomain.csv')
