@@ -55,14 +55,14 @@ FeaturesMatrix = [SignalMean' SignalSTD' SignalMax' SignalMin' SignalKurt' ...
 
 FeaturesMatrix_labelled = [DataMatrix(:,1:3) FeaturesMatrix];
 
-%% PCA Analysis
-figure;
-[coeff,score,latent]= pca(FeaturesMatrix);
-gscatter(score(:,1),score(:,2),DataMatrix(:,1));
-xlabel('Principle Component 1')
-ylabel('Principle Component 2')
-title('PCA Matrix of Features')
-grid on
+% %% PCA Analysis
+% figure;
+% [coeff,score,latent]= pca(FeaturesMatrix);
+% gscatter(score(:,1),score(:,2),DataMatrix(:,1));
+% xlabel('Principle Component 1')
+% ylabel('Principle Component 2')
+% title('PCA Matrix of Features')
+% grid on
 
 
 % [idx] = kmeans(FeaturesMatrix,5);
