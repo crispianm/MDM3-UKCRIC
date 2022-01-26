@@ -7,7 +7,7 @@ import numpy as np
 
 rng = np.random.default_rng()
 # Import Data and format
-df = pd.read_csv(join("./data/accelerometer_data_section_1.csv"))
+df = pd.read_csv(join("./data/accelerometer_data_section_5.csv"))
 df['Timestamp'] = pd.to_datetime(df['Timestamp'], infer_datetime_format=True)
 # df['Timestamp'] = range(len(df['Timestamp']))
 
