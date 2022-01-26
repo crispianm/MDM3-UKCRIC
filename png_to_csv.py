@@ -6,7 +6,7 @@ import sys
 import os
 import csv
 
-#Useful function
+# Useful function
 def createFileList(myDir, format='.png'):
     fileList = []
     print(myDir)
@@ -23,7 +23,7 @@ myFileList = createFileList('./pngs/')
 for file in myFileList:
     print(file)
     img_file = Image.open(file)
-    img_file.show()
+    # img_file.show()
 
     # get original image parameters...
     width, height = img_file.size

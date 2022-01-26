@@ -16,8 +16,7 @@ data = df.iloc[0:20,3:].to_numpy()
 # # Loop through and save pngs of 7.5 sec chunks
 i = 1
 for row in data:
-
-    freq, times, Sxx = signal.spectrogram(row, 64, scaling='spectrum')
+    freq, times, Sxx = signal.cwt(row, 64, scaling='spectrum')
     plt.pcolormesh(times, freq, Sxx, shading='gouraud')
     # plt.axis('off')
     plt.ylabel('Frequency [Hz]')
