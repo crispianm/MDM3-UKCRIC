@@ -3,11 +3,7 @@
 %% i.e at 7.5 second bands, nothing after row 2147 is correctly labelled
 
 %% Matrix Dimension
-<<<<<<< HEAD
 Bandwidth = 5;
-=======
-Bandwidth = 2;
->>>>>>> 376c1097e385d6afee4e27ad987e9e64d3744bd8
 Seconds2Index = 64*Bandwidth;
 
 Labels = CarLabels';
@@ -75,7 +71,7 @@ scatter(find(LW_Labels),zeros(1,length(find(LW_Labels))));
 xlim([xmin xmin+Seconds2Index-1]);
 ylim([-0.03 0.03]); 
 grid on 
-=======
+
 % %% Plotting
 % row = 1;
 % NoOfCars = 3;
@@ -90,6 +86,5 @@ grid on
 % xlim([xmin xmin+Seconds2Index-1]);
 % ylim([-0.03 0.03]); 
 % grid on 
->>>>>>> 376c1097e385d6afee4e27ad987e9e64d3744bd8
 
 writematrix(DataMatrix, 'LabelledMatrixTimeDomain.csv')
