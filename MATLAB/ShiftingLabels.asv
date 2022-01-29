@@ -1,0 +1,65 @@
+function [Shifted_Labels, ShiftedC_Labels, ShiftedLW_Labels] = ShiftingLabels(Labels, C_Labels, LW_Labels, DataVec)
+
+%% Shifted Labels
+LabelsIndex = find(Labels);
+CliftonIndex = find(C_Labels);
+LWIndex = find(LW_Labels);
+
+NewLabelsIndex = [];
+for i = 1:length(LabelsIndex)
+    Index = LabelsIndex(i);
+    [M,I] = max(abs(DataVec(Index-10:Index+70)));
+    NewLabelsIndex(end+1) = I+Index-10;
+end
+
+NewCliftonIndex = [];
+for i = 1:length(CliftonIndex)
+    Index = CliftonIndex(i);
+    [M,I] = max(abs(DataVec(Index-10:Index+70)));
+    NewCliftonIndex(end+1) = I+Index-10;
+end
+    
+NewLWIndex = [];
+for i = 1:length(LWIndex)
+    Index = LWIndex(i);
+    [M,I] = max(abs(DataVec(Index-10:Index+70)));
+    NewLWIndex(end+1) = I+Index-10;
+end
+
+
+Shifted_Labels = zeros(length(Labels),1);
+for i = 1:length(NewLabelsIndex)
+    if sum(NewLabelsIndex==NewLabelsIndex(i))==1
+        Shifted_Labels(NewLabelsIndex(i)) = 1;
+    elseif sum(NewLabelsIndex ==NewLabelsIndex(i))==2
+        Shifted_Labels(NewLabelsIndex(i)) = 2;    
+    else
+        Shifted_Labels(NewLabelsIndex(i)) = 3;
+    end
+end
+
+
+ShiftedC_Labels = zeros(length(Labels),1);
+for i = 1:length(NewCliftonIndex)
+    if sum(NewCliftonIndex==NewCliftonIndex(i))==1
+        ShiftedC_Labels(NewCliftonIndex(i)) = 1;
+    elseif sum(NewCliftonIndex ==NewCliftonIndex(i))==2
+        ShiftedC_Labels(NewCliftonIndex(i)) = 2;    
+    else
+        ShiftedC_Labels(NewCliftonIndex(i)) = 3;
+    end
+end
+
+
+ShiftedLW_Labels = zeros(length(Labels),1);
+for i = 1:length(NewLWIndex)
+    if sum(NewCliftonIndex==NewCliftonIndex(i))==1
+        ShiftedC_Labels(NewCliftonIndex(i)) = 1;
+    elseif sum(NewCliftonIndex ==NewCliftonIndex(i))==2
+        ShiftedC_Labels(NewCliftonIndex(i)) = 2;    
+    else
+        ShiftedC_Labels(NewCliftonIndex(i)) = 3;
+    end
+end
+
+end 

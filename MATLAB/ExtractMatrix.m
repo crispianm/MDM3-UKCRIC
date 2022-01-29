@@ -30,6 +30,9 @@ A6(end) = [];
 DataVec = [A1;A2;A3;A4;A5;A6;A7];
 DataVec([length(Labels)+1:end])=[];
 
+%% Shifted Labels
+[Shifted_Labels, ShiftedC_Labels, ShiftedLW_Labels] = ShiftingLabels(0,80,Labels, C_Labels, LW_Labels, DataVec);
+
 
 removeB4Labels = Seconds2Index*round(40000/Seconds2Index);
 
@@ -37,6 +40,10 @@ DataVec(1:removeB4Labels) = [];
 Labels(1:removeB4Labels) = [];
 C_Labels(1:removeB4Labels) = [];
 LW_Labels(1:removeB4Labels) = [];
+Shifted_Labels(1:removeB4Labels) = [];
+ShiftedC_Labels(1:removeB4Labels) =[];
+ShiftedLW_Labels(1:removeB4Labels)=[];
+
 
 NumOfRows = floor(length(Labels)/Seconds2Index);
 
@@ -45,46 +52,45 @@ DataVec = DataVec(1:NumOfRows*Seconds2Index);
 Labels = Labels(1:NumOfRows*Seconds2Index);
 C_Labels = C_Labels(1:NumOfRows*Seconds2Index);
 LW_Labels = LW_Labels(1:NumOfRows*Seconds2Index);
+Shifted_Labels = Shifted_Labels(1:NumOfRows*Seconds2Index);
+ShiftedC_Labels = ShiftedC_Labels(1:NumOfRows*Seconds2Index);
+ShiftedLW_Labels = ShiftedLW_Labels(1:NumOfRows*Seconds2Index);
 
 DataMatrix = reshape(DataVec',Seconds2Index,NumOfRows);
 LabelsMatrix = reshape(Labels',Seconds2Index,NumOfRows);
 C_LabelsMatrix = reshape(C_Labels',Seconds2Index,NumOfRows);
 LW_LabelsMatrix = reshape(LW_Labels',Seconds2Index,NumOfRows);
+ShiftedLabelsMatrix = reshape(Shifted_Labels',Seconds2Index,NumOfRows);
+ShiftedC_LabelsMatrix = reshape(ShiftedC_Labels',Seconds2Index,NumOfRows);
+ShiftedLW_LabelsMatrix = reshape(ShiftedLW_Labels',Seconds2Index,NumOfRows);
 
 NumOfCars = sum(LabelsMatrix);
 NumOfCars_Clifton = sum(C_LabelsMatrix);
 NumOfCars_LW = sum(LW_LabelsMatrix);
+NumOfCars_shifted = sum(ShiftedLabelsMatrix);
+NumOfCars_Clifton_shift = sum(ShiftedC_LabelsMatrix);
+NumOfCars_LW_shift = sum(ShiftedLW_LabelsMatrix);
+size(NumOfCars)
+size(NumOfCars_LW_shift)
 
-DataMatrix = [NumOfCars' NumOfCars_Clifton' NumOfCars_LW' DataMatrix'];
+theData = DataMatrix;
+DataMatrix = [NumOfCars' NumOfCars_Clifton' NumOfCars_LW' theData'];
+ShiftedDataMatrix = [NumOfCars_shifted' NumOfCars_Clifton_shift' NumOfCars_LW_shift' theData'];
 
 %% Plotting
-row = 8;
-NoOfCars = 3;
+row = 18;
 xmin = (row-1)*Seconds2Index +1 ;
 x = [xmin :xmin+Seconds2Index-1];
-
 figure;
-plot(x',DataMatrix(row,4:end))
+plot(x',ShiftedDataMatrix(row,4:end))
 hold on
-scatter(find(C_Labels),zeros(1,length(find(C_Labels))));
-scatter(find(LW_Labels),zeros(1,length(find(LW_Labels))));
+scatter(find(ShiftedC_Labels),zeros(1,length(find(ShiftedC_Labels))));
+scatter(find(ShiftedLW_Labels),zeros(1,length(find(ShiftedLW_Labels))));
 xlim([xmin xmin+Seconds2Index-1]);
 ylim([-0.03 0.03]); 
 grid on 
 
-% %% Plotting
-% row = 1;
-% NoOfCars = 3;
-% xmin = (row-1)*Seconds2Index +1 ;
-% x = [xmin :xmin+Seconds2Index-1];
-% 
-% figure;
-% plot(x',DataMatrix(row,4:end))
-% hold on
-% scatter(find(C_Labels),zeros(1,length(find(C_Labels))));
-% scatter(find(LW_Labels),zeros(1,length(find(LW_Labels))));
-% xlim([xmin xmin+Seconds2Index-1]);
-% ylim([-0.03 0.03]); 
-% grid on 
+
 
 writematrix(DataMatrix, 'LabelledMatrixTimeDomain.csv')
+writematrix(ShiftedDataMatrix, 'ShiftedLabelsMatrixTimeDomain.csv')
