@@ -16,7 +16,7 @@
 
 %% Variables
 TD = DataMatrix(:,4:end);
-FD = SingleSidedAmplitudeSpectrum(:,end);
+FD = SingleSidedAmplitudeSpectrum(:,4:end);
 %% Time Domain
 SignalMean = [];
 SignalSTD = [];
@@ -48,29 +48,51 @@ for i = 1:size(DataMatrix,1)
     mnf = mean(abs(FD(i,:))); SignalMeanFreq(end+1) = mnf;
     maxf = max(FD(i,:)); SignalMaxFreq(end+1) = maxf;
 end
- 
+
+%% Frequency Domain 8 to 16 hz.
+FD_s = FD(:,41:81);
+
+SignalMeanFreq_s = [];
+SignalMaxPeak_s = [];
+Sum_of_peaks_s = [];
+
+for i = 1:size(DataMatrix,1)
+    mnf_s = mean(abs(FD_s(i,:))); SignalMeanFreq_s(end+1) = mnf_s;
+    maxp_s = max(FD(i,:)); SignalMaxPeak_s(end+1) = maxp_s;
+    sum_peak = sum(maxk(FD_s(i,:),10)); Sum_of_peaks_s(end+1) = sum_peak;
+end
 %% Combining Time Domain and Frequency Domain 
 FeaturesMatrix = [SignalMean' SignalSTD' SignalMax' SignalMin' SignalKurt' ...
-    SignalSkew' SignalEnergy' SignalIQR' SignalMedianAbsDev', SignalMeanFreq', SignalMaxFreq'];
+    SignalSkew' SignalEnergy' SignalIQR' SignalMedianAbsDev', SignalMeanFreq',...
+    SignalMaxFreq',SignalMeanFreq_s',SignalMaxPeak_s',Sum_of_peaks_s'];
 
-FeaturesMatrix_labelled = [DataMatrix(:,1:3) FeaturesMatrix];
+FeaturesMatrix_labelled = [ShiftedDataMatrix(:,1:3) FeaturesMatrix];
 
 % %% PCA Analysis
-% figure;
-% [coeff,score,latent]= pca(FeaturesMatrix);
-% gscatter(score(:,1),score(:,2),DataMatrix(:,1));
-% xlabel('Principle Component 1')
-% ylabel('Principle Component 2')
-% title('PCA Matrix of Features')
-% grid on
+figure;
+%Y = tsne(FeaturesMatrix(:,end-2:end),'Algorithm','exact','Distance', 'chebychev');
+gscatter(Y(:,1),Y(:,2),ShiftedDataMatrix(:,1));
+xlabel('Principle Component 1')
+ylabel('Principle Component 2')
+title('PCA Matrix of Features')
+grid on
 
+% DBSCAN
+%figure;
+%[idx] = kmeans(FeaturesMatrix(:,end-2:end),5); 
+%gscatter(Y(:,1),Y(:,2),idx)
 
-% [idx] = kmeans(FeaturesMatrix,5);
-% [~, score1, latent, tsquared, explained] = pca(FeaturesMatrix);
-% testdataguess = idx;
-% 
-% pca1test = score1(:,1);
-% pca2test = score1(:,2);
+% 2 = 0, 3 = 1, 4 = 2, 1 = 3, 5 = 4.
+correct_labels = [4,1,2,5,3];
+predicted_matrix = [[0:4]',zeros(5,2),];
+for i = 1:5
+    sum_cars = sum(idx==correct_labels(i));
+    actual_sum = sum(ShiftedDataMatrix(:,1)==i-1);
+    predicted_matrix(i,2) = sum_cars;
+    predicted_matrix(i,3) = actual_sum;  
+end
+ predicted_matrix
+
 
 
 writematrix(FeaturesMatrix_labelled, 'ExtractedFeatures_labelled.csv')
