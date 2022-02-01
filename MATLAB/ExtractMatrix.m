@@ -78,7 +78,7 @@ DataMatrix = [NumOfCars' NumOfCars_Clifton' NumOfCars_LW' theData'];
 ShiftedDataMatrix = [NumOfCars_shifted' NumOfCars_Clifton_shift' NumOfCars_LW_shift' theData'];
 
 %% Plotting
-row = 18;
+row = 683;
 xmin = (row-1)*Seconds2Index +1 ;
 x = [xmin :xmin+Seconds2Index-1];
 figure;
@@ -89,7 +89,6 @@ scatter(find(ShiftedLW_Labels),zeros(1,length(find(ShiftedLW_Labels))));
 xlim([xmin xmin+Seconds2Index-1]);
 ylim([-0.03 0.03]); 
 grid on 
-
 
 
 writematrix(DataMatrix, 'LabelledMatrixTimeDomain.csv')
