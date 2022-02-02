@@ -7,7 +7,7 @@ import numpy as np
 
 
 # Import Data
-df = pd.read_csv(join("././MATLAB/LabelledMatrixTimeDomain.csv"), header=None)
+df = pd.read_csv(join("./MATLAB/LabelledMatrixTimeDomain.csv"), header=None)
 
 # Format Data
 data = df.iloc[0:20,3:].to_numpy()
