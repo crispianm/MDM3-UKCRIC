@@ -17,20 +17,20 @@
 %% Variables
 TD_direction = DirectionMatrix(:,2:end);
 TD_direction_labels = DirectionMatrix(:,1);
-FD_direction = AmplitudeSpectrum_DM;
+FD_direction = AmplitudeSpectrum_DM(:,2:end);
 TD = DataMatrix(:,4:end);
 FD = SingleSidedAmplitudeSpectrum(:,4:end);
 
 %% Time Domain
-%td_features = timedomainfeatures(TD);
+td_features = timedomainfeatures(TD);
 td_features_DM = timedomainfeatures(TD_direction);
 
 %% Frequency Domain features
 fd_features = frequencydomainfeatures(FD);
 fd_features_DM = frequencydomainfeatures(FD_direction);
 %% Combining Time Domain and Frequency Domain 
-%FeaturesMatrix = [td_features, fd_features];
-%FeaturesMatrix_labelled = [ShiftedDataMatrix(:,1:3) FeaturesMatrix];
+FeaturesMatrix = [td_features, fd_features];
+FeaturesMatrix_labelled = [ShiftedDataMatrix(:,1:3) FeaturesMatrix];
 
 FeaturesMatrix_DM = [td_features_DM, fd_features_DM];
 FeaturesMatrix_DM_labelled = [TD_direction_labels FeaturesMatrix_DM];
@@ -88,5 +88,5 @@ cluster_values_4 = sum(true_labels(four_index))/length(four_index);
 true_cluster_values = [cluster_values_0; cluster_values_1; cluster_values_2; cluster_values_3; cluster_values_4];
 
 
-writematrix(FeaturesMatrix_DM_labelled, 'ExtractedFeatures_labelled_DM.csv')
+%writematrix(FeaturesMatrix_DM_labelled, 'ExtractedFeatures_labelled_DM.csv')
 %writematrix(FeaturesMatrix_labelled, 'ExtractedFeatures_labelled.csv')
