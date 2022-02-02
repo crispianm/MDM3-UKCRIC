@@ -38,7 +38,7 @@ FeaturesMatrix_DM_labelled = [TD_direction_labels FeaturesMatrix_DM];
 
 %% Visualisation
 figure;
-%Y = tsne(FeaturesMatrix(:,end-4:end),'Algorithm','exact','Distance', 'chebychev');
+%Y = tsne(FeaturesMatrix(:,end-4:end),'Algorithm','exact','Distance', 'euclidean');
 gscatter(Y(:,1),Y(:,2),ShiftedDataMatrix(:,1));
 xlabel('t-SNE 1')
 ylabel('t-SNE 2')
@@ -94,8 +94,8 @@ true_cluster_values = [cluster_values_0; cluster_values_1; cluster_values_2; clu
 mislabelled_euclideans = [mislabelled_2_euclidean mislabelled_3_euclidean mislabelled_4_euclidean];
 
 %% Removing mislabelled data
-%removed_mislabelled_euclidean = FeaturesMatrix_labelled;
-%removed_mislabelled_euclidean(mislabelled_euclideans,:) = [];
+removed_mislabelled_euclidean = FeaturesMatrix_labelled;
+removed_mislabelled_euclidean(mislabelled_euclideans,:) = [];
 %writematrix(FeaturesMatrix_DM_labelled, 'ExtractedFeatures_labelled_DM.csv')
 %writematrix(FeaturesMatrix_labelled, 'ExtractedFeatures_labelled.csv')
-%writematrix(removed_mislabelled_euclidean,'removed_mislabelled_euclidean.csv')
+writematrix(removed_mislabelled_euclidean,'removed_misla
