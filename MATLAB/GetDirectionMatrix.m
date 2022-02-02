@@ -18,4 +18,4 @@ for i = 1:size(A,1)
 end
 DirectionMatrix(1,:) = [];
 DirectionMatrix(:,2) = [];
-writematrix(DirectionMatrix, 'DiretionMatrix.csv')
+%writematrix(DirectionMatrix, 'DiretionMatrix.csv')

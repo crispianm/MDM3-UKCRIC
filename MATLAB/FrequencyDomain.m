@@ -1,12 +1,12 @@
 
 %% Discrete Fourier Transform
-[SingleSidedAmplitudeSpectrum, DiscreteFourierTransform] = fouriertransform(ShiftedDataMatrix);
-%[AmplitudeSpectrum_DM, ~] = fouriertransform(DirectionMatrix);
+[SingleSidedAmplitudeSpectrum, DiscreteFourierTransform,Fs,L] = fouriertransform(ShiftedDataMatrix);
+%[AmplitudeSpectrum_DM, ~,Fs,L] = fouriertransform(DirectionMatrix);
 
 figure;
 f = Fs*(0:(L/2))/L;
 row = 60;
-plot(f,SingleSidedAmplitudeSpectrum(row, 4:end))
+plot(f,AmplitudeSpectrum_DM(row, 4:end))
 xlabel('f(Hz)')
 ylabel('|P1(f)|')
 title('Single-Sided Amplitude Spectrum') 
