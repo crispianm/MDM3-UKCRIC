@@ -38,7 +38,7 @@ FeaturesMatrix_DM_labelled = [TD_direction_labels FeaturesMatrix_DM];
 
 %% Visualisation
 figure;
-%Y = tsne(FeaturesMatrix(:,end-4:end),'Algorithm','exact','Distance', 'chebychev');
+Y = tsne(FeaturesMatrix(:,end-4:end),'Algorithm','exact','Distance', 'cityblock');
 gscatter(Y(:,1),Y(:,2),ShiftedDataMatrix(:,1));
 xlabel('t-SNE 1')
 ylabel('t-SNE 2')
@@ -48,14 +48,13 @@ grid on
 % kmeans
 colors = 'grmby'; markers = '.';
 figure;
-rng(1);
-[idx] = kmeans(FeaturesMatrix(:,end-2:end),5); 
+rng(1)
+[idx] = kmeans(FeaturesMatrix(:,end-4:end),5); 
 gscatter(Y(:,1),Y(:,2),idx,colors, markers, 4);
 grid on
 title('K-Means clustering of after t-SNE dimensionality reduction')
 
-
-correct_labels = [2,5,1,3,4];
+correct_labels = [2,1,3,4,5];
 predicted_matrix = [[0:4]',zeros(5,2),];
 for i = 1:5
     sum_cars = sum(idx==correct_labels(i));
@@ -65,10 +64,10 @@ for i = 1:5
 end
 
 zero_index = find(idx==2);
-one_index = find(idx==5);
-two_index = find(idx==1);
-three_index = find(idx ==3);
-four_index = find(idx==4);
+one_index = find(idx==1);
+two_index = find(idx==3);
+three_index = find(idx ==4);
+four_index = find(idx==5);
 guessed_labels = zeros(length(idx),1);
 guessed_labels(zero_index) = 0;
 guessed_labels(one_index) = 1;
@@ -88,14 +87,20 @@ cluster_values_4 = sum(true_labels(four_index))/length(four_index);
 true_cluster_values = [cluster_values_0; cluster_values_1; cluster_values_2; cluster_values_3; cluster_values_4];
 
 %% Finding mislabelled 0s
-[mislabelled_2_euclidean] = find_mislabelled_zeros(two_index,ShiftedDataMatrix);
-[mislabelled_3_euclidean] = find_mislabelled_zeros(three_index,ShiftedDataMatrix);
-[mislabelled_4_euclidean] = find_mislabelled_zeros(four_index,ShiftedDataMatrix);
-mislabelled_euclideans = [mislabelled_2_euclidean mislabelled_3_euclidean mislabelled_4_euclidean];
+% mislabelled_euclideans = [];
+[mislabelled_2] = find_mislabelled_zeros(two_index,ShiftedDataMatrix);
+[mislabelled_3] = find_mislabelled_zeros(three_index,ShiftedDataMatrix);
+[mislabelled_4] = find_mislabelled_zeros(four_index,ShiftedDataMatrix);
+% mislabelled_euclideans = [mislabelled_2 mislabelled_3 mislabelled_4];
+mislabelled_cityblock = [mislabelled_2 mislabelled_3 mislabelled_4];
 
 %% Removing mislabelled data
 %removed_mislabelled_euclidean = FeaturesMatrix_labelled;
+remove_mislabelled_cityblock = FeaturesMatrix_labelled;
+remove_mislabelled_cityblock(mislabelled_cityblock,:) = [];
 %removed_mislabelled_euclidean(mislabelled_euclideans,:) = [];
 %writematrix(FeaturesMatrix_DM_labelled, 'ExtractedFeatures_labelled_DM.csv')
 %writematrix(FeaturesMatrix_labelled, 'ExtractedFeatures_labelled.csv')
 %writematrix(removed_mislabelled_euclidean,'removed_mislabelled_euclidean.csv')
+
+writematrix(remove_mislabelled_cityblock,'removed_mislabelled_cityblock.csv')
