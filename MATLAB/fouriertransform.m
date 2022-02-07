@@ -1,4 +1,4 @@
-function [AmpSpectrum, DiscreteFourierTransform] = fouriertransform(input_matrix)
+function [AmpSpectrum, DiscreteFourierTransform,Fs,L] = fouriertransform(input_matrix)
 Fs = 64; %Sampling Frequency
 T = 1/Fs;
 L = length(input_matrix(1,4:end)); % Length of Signal 
