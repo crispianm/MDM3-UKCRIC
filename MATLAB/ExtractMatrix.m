@@ -79,7 +79,7 @@ ShiftedDataMatrix = [NumOfCars_shifted' NumOfCars_Clifton_shift' NumOfCars_LW_sh
 
 %% Plotting
 
-row = 2869;
+row = 294;
 xmin = (row-1)*Seconds2Index +1 ;
 x = [xmin :xmin+Seconds2Index-1];
 figure;

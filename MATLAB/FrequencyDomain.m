@@ -5,8 +5,8 @@
 
 figure;
 f = Fs*(0:(L/2))/L;
-row = 60;
-plot(f,AmplitudeSpectrum_DM(row, 4:end))
+row = 294;
+plot(f,SingleSidedAmplitudeSpectrum(row, 4:end))
 xlabel('f(Hz)')
 ylabel('|P1(f)|')
 title('Single-Sided Amplitude Spectrum') 

@@ -38,7 +38,7 @@ FeaturesMatrix_DM_labelled = [TD_direction_labels FeaturesMatrix_DM];
 
 %% Visualisation
 figure;
-Y = tsne(FeaturesMatrix(:,end-4:end),'Algorithm','exact','Distance', 'cityblock');
+%Y = tsne(FeaturesMatrix(:,end-4:end),'Algorithm','exact','Distance', 'cityblock');
 gscatter(Y(:,1),Y(:,2),ShiftedDataMatrix(:,1));
 xlabel('t-SNE 1')
 ylabel('t-SNE 2')
@@ -103,4 +103,4 @@ remove_mislabelled_cityblock(mislabelled_cityblock,:) = [];
 %writematrix(FeaturesMatrix_labelled, 'ExtractedFeatures_labelled.csv')
 %writematrix(removed_mislabelled_euclidean,'removed_mislabelled_euclidean.csv')
 
-writematrix(remove_mislabelled_cityblock,'removed_mislabelled_cityblock.csv')
+%writematrix(remove_mislabelled_cityblock,'removed_mislabelled_cityblock.csv')
