@@ -7,28 +7,30 @@ import numpy as np
 
 
 # Import Data
-df = pd.read_csv(join("././MATLAB/ShiftedLabelsMatrixTimeDomain.csv"), header=None)
+df = pd.read_csv(join("./sevensecwindow.csv"), header=None)
+# df = pd.read_csv(join("./data/accelerometer_data_section_5.csv"))
 
 
-datassss = []
-for i in range(12):
-    data0 = df.iloc[i,3:].to_numpy()
-    datassss.append(data0)
+# Format Data
+data = df.iloc[:,3:].values.reshape(-1,).tolist()
+data = np.array(data)
 
-# data.append(df.iloc[1,3:].to_numpy())
-data = np.concatenate(datassss)
-# print(data)
-
+# calc max 
+f, t, Sxx = signal.spectrogram(data, 64)
+max_value = np.amax(Sxx)
 
 # Loop through and save pngs of 7.5 sec chunks
-freq, times, Sxx = signal.spectrogram(data, 64, scaling='spectrum')
-plt.pcolormesh(times, freq, Sxx, shading='gouraud')
-plt.set_cmap('brg')
-# plt.axis('off')
-plt.ylabel('Frequency [Hz]')
-plt.xlabel('Time [sec]')
-plt.tight_layout()
-plt.savefig("./pngs/Spectogram.png", bbox_inches='tight',transparent=False)
-plt.rcParams["figure.figsize"] = (20,3)
-# plt.ylim([0,20])
-plt.show()
+data = df.iloc[:,3:].to_numpy()
+i = 0
+for chunk in data:
+
+    chunk[0] = 1
+    f, t, Sxx = signal.spectrogram(chunk, 64)
+    plt.rcParams["figure.figsize"] = (5,5)
+    plt.tight_layout()
+    plt.set_cmap('cividis')
+    plt.axis('off')
+    plt.pcolormesh(t, f, Sxx, shading='gouraud')
+    plt.savefig("./pngs/dataset/Spectogram %d.png" % i, bbox_inches='tight',transparent=True)
+    print("Saving image: ", "Spectogram %d.png" % i)
+    i += 1
