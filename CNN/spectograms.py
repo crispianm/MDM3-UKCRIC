@@ -20,7 +20,7 @@ f, t, Sxx = signal.spectrogram(data, 64)
 max_value = np.amax(Sxx)
 
 # Loop through and save pngs of 7.5 sec chunks
-data = df.iloc[:,3:].to_numpy()
+data = df.iloc[0:5,3:].to_numpy()
 i = 0
 for chunk in data:
 
@@ -31,6 +31,7 @@ for chunk in data:
     plt.set_cmap('cividis')
     plt.axis('off')
     plt.pcolormesh(t, f, Sxx, shading='gouraud')
-    plt.savefig("./pngs/dataset/Spectogram %d.png" % i, bbox_inches='tight',transparent=True)
-    print("Saving image: ", "Spectogram %d.png" % i)
+    # plt.savefig("./pngs/dataset/Spectogram %d.png" % i, bbox_inches='tight',transparent=True)
+    # print("Saving image: ", "Spectogram %d.png" % i)
+    plt.show()
     i += 1
